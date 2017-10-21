@@ -23,11 +23,11 @@ module Rack
                   pool_options[:size]    = options[:pool_size] if options[:pool_size]
                   pool_options[:timeout] = options[:pool_timeout] if options[:pool_timeout]
                   @pooled = true
-                  ::ConnectionPool.new(pool_options) { ::Redis::Store::Factory.create(@default_options[:redis_server]) }
+                  ::ConnectionPool.new(pool_options) { ::Redis::Store::Factory.create(options[:redis_server] ? options[:redis_server] : @default_options[:redis_server]) }
                 else
                   @default_options.has_key?(:redis_store) ?
                     @default_options[:redis_store] :
-                    ::Redis::Store::Factory.create(@default_options[:redis_server])
+                    ::Redis::Store::Factory.create(options[:redis_server] ? options[:redis_server] : @default_options[:redis_server])
 
                 end
       end
